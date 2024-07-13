@@ -1,11 +1,15 @@
 # Geometrix Citra
 
 ### 1. Import Library
+Ada 3 library yang saya pakai dalam geometrix citra ini, yaitu OpenCV (cv2), NumPy, dan Matplotlib. Setiap library mempunyai fungsinya masing-masing yang akan saya jabarkan di bawah ini.
 
+- OpenCV (cv2) adalah library untuk pemrosesan citra dan video.
+- NumPy adalah library untuk komputasi numerik di Python.
+- Matplotlib adalah library untuk visualisasi data.
 ### 2. Pembacaan Citra
-
+Pembacaan citra menggunakan fungsi ```imread``` dari library OpenCV (cv2) dan disimpan dalam variabel img. Untuk citra yang dipakai berformat jpg.
 ### 3. Penampilan Citra Asli
-
+Penampilan citra menggunakan fungsi ```show``` dari Matplotlib.pyplot. Saya mengonversi citra terlebih dahulu dari BGR ke RGB. 
 ### 4. Citra Rotated
 ```
 rows, cols = img.shape[:2]
@@ -25,10 +29,9 @@ axs[1].set_title("After Rotated")
 Setelah itu, citra asli dan citra asli yang sudah dirotasi tadi, saya tampilkan pada dua subplot yang terpisah. 
 ### 5. Citra Resized
 ```
-img_resized = cv2.resize(img, (img.shape[1] // 3, img.shape[0] // 2))
+img_resized = cv2.resize(img, None, fx = 0.2, fy = 0.2, interpolation = cv2.INTER_CUBIC)
 ```
-Baris kode ini bertujuan untuk me-resize citra asli tadi menggunakan fungsi ```resize``` dari OpenCV. Caranya adalah dengan mengubah ukurannya menjadi sepertiga dari lebar aslinya citra dan setengah dari tinggi aslinya citra. img.shape[0] adalah nilai tinggi citra, dan img.shape[1] adalah nilai lebar citra.
-
+Baris kode ini bertujuan untuk me-resize citra asli tadi menggunakan fungsi ```resize``` dari OpenCV. Caranya adalah dengan mengubah ukuran gambar img menjadi 20% dari ukuran aslinya (baik lebar maupun tinggi) menggunakan metode interpolasi kubik untuk menghasilkan gambar yang lebih halus, dan hasilnya disimpan dalam variabel img_resized.
 ```
 fig, axs = plt.subplots(1, 2, figsize=(15, 5))
 axs[0].imshow(img)
@@ -56,7 +59,7 @@ Setelah itu, citra asli dan citra asli yang sudah dicrop tadi, saya tampilkan pa
 ```
 img_flipped = cv2.flip(img, 1)
 ```
-Baris ini akan mengflip citra asli dengan menggunakan fungsi ```flip``` secara horizontal karena parameternya adalah 1. Citra asli akan mengalami pembalikkan arah dan disimpan dalam variabel img_flipped.
+Baris ini akan mengflip citra asli dengan menggunakan fungsi ```flip``` dari OpenCV secara horizontal karena parameternya adalah 1. Citra asli akan mengalami pembalikkan arah dan disimpan dalam variabel img_flipped.
 ```
 fig, axs = plt.subplots(1, 2, figsize=(15, 5))
 axs[0].imshow(img)
@@ -81,5 +84,63 @@ axs[1].set_title('After Translated')
 ```
 Setelah itu, citra asli dan citra asli yang sudah ditranslasi tadi, saya tampilkan pada dua subplot yang terpisah. 
 
-## Teori Pendukung
+### 9. Penampilan Seluruh Citra
+```
+fig, axs = plt.subplots(2, 3, figsize=(20, 20))
 
+axs[0,0].imshow(img)
+axs[0,0].set_title('Citra Asli')
+
+axs[0,1].imshow(img_rotated)
+axs[0,1].set_title('After Rotated')
+
+axs[0,2].imshow(img_resized)
+axs[0,2].set_title('After Resized')
+
+axs[1,0].imshow(img_cropped)
+axs[1,0].set_title('After Cropped')
+
+axs[1,1].imshow(img_flipped)
+axs[1,1].set_title('After Flipped')
+
+axs[1,2].imshow(img_translated)
+axs[1,2].set_title('After Translated')
+```
+Kode ini menghasilkan satu figure dengan enam subplot yang menampilkan perubahan citra img dari asli hingga setelah berbagai transformasi seperti rotasi, perubahan ukuran, pemotongan, pembalikan, dan translasi. Setiap subplot memiliki judul yang menjelaskan transformasi yang diterapkan pada gambar.
+
+## Teori Pendukung
+Geometrix citra adalah cabang ilmu pengolahan citra digital yang fokus pada manipulasi geometrik citra digital. Manipulasi ini dilakukan untuk memperbaiki distorsi geometrik pada citra, seperti yang disebabkan oleh lensa kamera, gerakan objek, atau kondisi pencahayaan.
+
+Berikut beberapa teori dasar yang mendasari geometrix citra:
+
+### 1. Transformasi Geometrik
+
+Translasi: Memindahkan seluruh citra ke atas, bawah, kiri, atau kanan tanpa mengubah bentuknya.
+Rotasi: Memutar citra dengan sudut tertentu.
+Penskalaan: Mengubah ukuran citra dengan memperbesar atau memperkecilnya.
+Refleksi: Membalik citra secara horizontal, vertikal, atau diagonal.
+Warping: Melengkungkan citra dengan cara non-linier.
+
+### 2. Interpolasi
+
+Digunakan untuk memperkirakan nilai piksel baru dalam citra yang telah diubah secara geometrik. Teknik interpolasi yang umum digunakan adalah interpolasi nearest neighbor, bilinear, dan bicubic.
+
+### 3. Koreksi Geometrik
+
+Proses untuk memperbaiki distorsi geometrik pada citra. Distorsi ini dapat disebabkan oleh berbagai faktor, seperti lensa kamera, gerakan objek, atau kondisi pencahayaan. Koreksi geometrik dapat dilakukan dengan menggunakan transformasi geometrik dan teknik interpolasi.
+
+### 4. Pendaftaran Citra
+
+Proses untuk mencocokkan dua atau lebih citra yang berbeda. Pendaftaran citra digunakan dalam berbagai aplikasi, seperti penginderaan jauh, fotogrammetri, dan computer vision.
+
+### 5. Pengukuran Geometrik
+
+Proses untuk mengukur fitur geometris dari citra digital, seperti jarak, sudut, dan luas. Pengukuran geometrik digunakan dalam berbagai aplikasi, seperti pemetaan, GIS, dan kontrol kualitas.
+
+### 6. Aplikasi Geometrix Citra
+
+- Penginderaan jauh: Koreksi geometrik citra satelit untuk mendapatkan informasi spasial yang akurat.
+- Fotogrammetri: Rekonstruksi objek 3D dari citra 2D.
+- Computer vision: Pengenalan objek, pelacakan objek, dan estimasi pose.
+- Medis: Analisis gambar medis, seperti X-ray dan MRI.
+- Grafis komputer: Pembuatan efek visual dan animasi.
